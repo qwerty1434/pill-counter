@@ -3,6 +3,7 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useCameraPermission } from './src/hooks/useCameraPermission';
 import { CameraView } from './src/components/CameraView';
+import { ScanAreaOverlay } from './src/components/ScanAreaOverlay';
 import { PermissionRequest } from './src/components/PermissionRequest';
 import { PermissionDenied } from './src/components/PermissionDenied';
 
@@ -18,7 +19,12 @@ export default function App() {
           </View>
         );
       case 'granted':
-        return <CameraView />;
+        return (
+          <>
+            <CameraView />
+            <ScanAreaOverlay />
+          </>
+        );
       case 'denied':
         return <PermissionDenied />;
       case 'not-determined':
