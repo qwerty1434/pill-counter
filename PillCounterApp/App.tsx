@@ -2,13 +2,16 @@ import React from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useCameraPermission } from './src/hooks/useCameraPermission';
+import { useMockPillCount } from './src/hooks/useMockPillCount';
 import { CameraView } from './src/components/CameraView';
 import { ScanAreaOverlay } from './src/components/ScanAreaOverlay';
+import { PillCountDisplay } from './src/components/PillCountDisplay';
 import { PermissionRequest } from './src/components/PermissionRequest';
 import { PermissionDenied } from './src/components/PermissionDenied';
 
 export default function App() {
   const { status, requestPermission } = useCameraPermission();
+  const { count, isStable } = useMockPillCount();
 
   const renderContent = () => {
     switch (status) {
@@ -23,6 +26,7 @@ export default function App() {
           <>
             <CameraView />
             <ScanAreaOverlay />
+            <PillCountDisplay count={count} isStable={isStable} />
           </>
         );
       case 'denied':
