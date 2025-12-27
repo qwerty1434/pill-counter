@@ -2,8 +2,9 @@ import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const SCAN_AREA_SIZE = SCREEN_WIDTH * 0.8;
-const SCAN_AREA_TOP = (SCREEN_HEIGHT - SCAN_AREA_SIZE) / 2 - 50;
+export const SCAN_AREA_SIZE = SCREEN_WIDTH * 0.8;
+export const SCAN_AREA_TOP = (SCREEN_HEIGHT - SCAN_AREA_SIZE) / 2 - 50;
+export const SCAN_AREA_LEFT = (SCREEN_WIDTH - SCAN_AREA_SIZE) / 2;
 
 /**
  * 카메라 프리뷰 위에 표시되는 스캔 영역 가이드

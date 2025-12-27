@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "알약 개수를 세기 위해 카메라 접근이 필요합니다."
+      },
+      "bundleIdentifier": "com.pillcounter.app"
     },
     "android": {
       "package": "com.pillcounter.app",
@@ -22,7 +26,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,6 +39,13 @@
         "react-native-vision-camera",
         {
           "cameraPermissionText": "알약 개수를 세기 위해 카메라 접근이 필요합니다."
+        }
+      ],
+      [
+        "react-native-fast-tflite",
+        {
+          "enableCoreMLDelegate": true,
+          "enableAndroidGpuLibraries": true
         }
       ]
     ]

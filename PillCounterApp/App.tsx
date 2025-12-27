@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useCameraPermission } from './src/hooks/useCameraPermission';
-import { useMockPillCount } from './src/hooks/useMockPillCount';
+import { useObjectDetection } from './src/hooks/useObjectDetection';
 import { CameraView } from './src/components/CameraView';
 import { ScanAreaOverlay } from './src/components/ScanAreaOverlay';
 import { PillCountDisplay } from './src/components/PillCountDisplay';
 import { PermissionRequest } from './src/components/PermissionRequest';
 import { PermissionDenied } from './src/components/PermissionDenied';
+import { DetectionOverlay } from './src/components/DetectionOverlay';
 
 export default function App() {
   const { status, requestPermission } = useCameraPermission();
-  const { count, isStable } = useMockPillCount();
+  const { count, isStable, isModelLoaded, detections, frameProcessor } = useObjectDetection();
 
   const renderContent = () => {
     switch (status) {
@@ -24,9 +25,16 @@ export default function App() {
       case 'granted':
         return (
           <>
-            <CameraView />
+            <CameraView frameProcessor={frameProcessor} />
+            <DetectionOverlay detections={detections} />
             <ScanAreaOverlay />
             <PillCountDisplay count={count} isStable={isStable} />
+            {!isModelLoaded && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="small" color="#fff" />
+                <Text style={styles.loadingText}>모델 로딩 중...</Text>
+              </View>
+            )}
           </>
         );
       case 'denied':
@@ -54,5 +62,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  loadingText: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
