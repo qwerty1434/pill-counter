@@ -9,7 +9,7 @@ interface DetectionOverlayProps {
 }
 
 /**
- * 탐지된 객체에 바운딩 박스와 인식률을 표시하는 오버레이
+ * 탐지된 객체에 바운딩 박스를 표시하는 오버레이
  */
 export function DetectionOverlay({ detections }: DetectionOverlayProps) {
   return (
@@ -17,29 +17,21 @@ export function DetectionOverlay({ detections }: DetectionOverlayProps) {
       {detections.map((detection, index) => {
         const { box, confidence } = detection;
 
-        // 정규화된 좌표(0~1)를 화면 좌표로 변환
+        // 정규화 좌표(0~1)를 화면 좌표로 변환
         const left = box.x * SCREEN_WIDTH;
         const top = box.y * SCREEN_HEIGHT;
         const width = box.width * SCREEN_WIDTH;
         const height = box.height * SCREEN_HEIGHT;
 
-        const confidencePercent = Math.round(confidence * 100);
-
         return (
           <View
             key={index}
-            style={[
-              styles.boundingBox,
-              {
-                left,
-                top,
-                width,
-                height,
-              },
-            ]}
+            style={[styles.boundingBox, { left, top, width, height }]}
           >
-            <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>{confidencePercent}%</Text>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>
+                {Math.round(confidence * 100)}%
+              </Text>
             </View>
           </View>
         );
@@ -56,20 +48,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderWidth: 2,
     borderColor: '#00FF00',
-    backgroundColor: 'transparent',
   },
-  labelContainer: {
+  label: {
     position: 'absolute',
-    top: -24,
+    top: -20,
     left: -2,
     backgroundColor: '#00FF00',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    borderRadius: 2,
   },
   labelText: {
     color: '#000',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
   },
 });
